@@ -10,7 +10,7 @@
         :name="friend.name"
         :phone-number="friend.phone"
         :email-address="friend.email"
-        :is-Favorite="friend.isFavorite"
+        :is-favorite="friend.isFavorite"
         @toggle-favorite="toggleFavoriteStatus"
         @delete="deleteContact"
       ></friend-contact>
