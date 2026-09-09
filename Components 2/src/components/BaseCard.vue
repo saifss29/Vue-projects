@@ -17,7 +17,7 @@ export default {
 };
 </script>
 <style scoped>
-section header {
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
