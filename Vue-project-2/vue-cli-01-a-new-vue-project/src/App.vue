@@ -49,7 +49,7 @@ export default {
     },
     addContact(name, phone, email) {
       const newFriendContact = {
-        id: new Date().toISOString(),
+        id: Date.now(),
         name: name,
         phone: phone,
         email: email,
