@@ -10,7 +10,7 @@
     </div>
     <div>
       <label>Email</label>
-      <input type="email" v-model="entertedEmail" />
+      <input type="email" v-model="enteredEmail" />
     </div>
     <div>
       <button>Add Contact</button>
@@ -25,7 +25,7 @@ export default {
     return {
       enteredName: "",
       enteredPhone: "",
-      entertedEmail: "",
+      enteredEmail: "",
     };
   },
   methods: {
@@ -34,7 +34,7 @@ export default {
         "add-contact",
         this.enteredName,
         this.enteredPhone,
-        this.entertedEmail,
+        this.enteredEmail,
       );
     },
   },
