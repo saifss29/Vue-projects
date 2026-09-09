@@ -39,7 +39,7 @@ export default {
       default: false,
     },
   },
-  emits: ["toggle-favorite"],
+  emits: ["toggle-favorite", "delete"],
 
   data() {
     return {
