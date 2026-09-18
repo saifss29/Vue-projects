@@ -1,9 +1,16 @@
 <template>
-  <section>
+  <base-card>
     <h1>{{ submitButtonCaption }}</h1>
 
-    <p v-if="error">{{ error }}</p>
-    <p v-if="isLoading">Authenticating...</p>
+    <base-dialog
+      v-if="error"
+      title="Authentication failed"
+      @close="error = null"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
+
+    <base-spinner v-if="isLoading" />
 
     <form @submit.prevent="submitForm">
       <div>
@@ -20,12 +27,12 @@
         Please enter a valid email and password with at least 6 characters.
       </p>
 
-      <button>{{ submitButtonCaption }}</button>
-      <button type="button" @click="switchAuthMode">
+      <base-button type="submit">{{ submitButtonCaption }}</base-button>
+      <base-button type="button" mode="outline" @click="switchAuthMode">
         {{ switchModeButtonCaption }}
-      </button>
+      </base-button>
     </form>
-  </section>
+  </base-card>
 </template>
 
 <script>
@@ -107,12 +114,6 @@ export default {
 </script>
 
 <style scoped>
-section {
-  max-width: 32rem;
-  margin: 2rem auto;
-  padding: 1rem;
-}
-
 div {
   margin-bottom: 1rem;
 }
@@ -131,13 +132,4 @@ input {
   border-radius: 6px;
 }
 
-button {
-  margin-right: 0.75rem;
-  padding: 0.6rem 1.25rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #3d008d;
-  color: white;
-  cursor: pointer;
-}
 </style>

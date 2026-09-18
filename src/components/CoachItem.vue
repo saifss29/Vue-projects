@@ -4,10 +4,15 @@
     <p>${{ rate }}/hour</p>
 
     <div>
-      <span v-for="area in areas" :key="area">{{ area }}</span>
+      <base-badge
+        v-for="area in areas"
+        :key="area"
+        :type="area"
+        :title="area"
+      />
     </div>
 
-    <router-link :to="coachDetailsLink">View Details</router-link>
+    <base-button link :to="coachDetailsLink">View Details</base-button>
   </li>
 </template>
 
@@ -42,25 +47,4 @@ p {
   font-weight: 600;
 }
 
-span {
-  display: inline-block;
-  margin: 0.25rem 0.5rem 0.25rem 0;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  background-color: #3d008d;
-  color: white;
-  font-size: 0.85rem;
-}
-
-a {
-  display: inline-block;
-  margin-top: 1rem;
-  color: #3d008d;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 </style>

@@ -4,12 +4,12 @@
     <p>You are contacting: {{ coachId }}</p>
 
     <p v-if="error">{{ error }}</p>
-    <p v-if="isLoading">Sending request...</p>
+    <base-spinner v-if="isLoading" />
 
     <form @submit.prevent="submitForm">
       <div>
         <label for="email">Your Email</label>
-        <input id="email" type="email" v-model="email" />
+        <input id="email" type="email" v-model="email" required />
       </div>
 
       <div>
@@ -17,7 +17,7 @@
         <textarea id="message" rows="5" v-model="message"></textarea>
       </div>
 
-      <button>Send Message</button>
+      <base-button type="submit">Send Message</base-button>
 
       <p v-if="!formIsValid">Please enter a valid email and message.</p>
     </form>
@@ -42,7 +42,15 @@ export default {
   },
   methods: {
     async submitForm() {
-      if (this.email === "" || this.message === "") {
+      const email = this.email.trim();
+      const message = this.message.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (
+        email === "" ||
+        !emailPattern.test(email) ||
+        message === ""
+      ) {
         this.formIsValid = false;
         return;
       }
@@ -53,8 +61,8 @@ export default {
 
       try {
         await this.$store.dispatch("requests/contactCoach", {
-          email: this.email,
-          message: this.message,
+          email,
+          message,
           coachId: this.coachId,
         });
 
@@ -98,19 +106,6 @@ textarea {
   font: inherit;
   border: 1px solid #ccc;
   border-radius: 6px;
-}
-
-button {
-  padding: 0.6rem 1.25rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #3d008d;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #27005d;
 }
 
 p {

@@ -1,11 +1,18 @@
 <template>
-  <section>
+  <base-card>
     <h1>Requests Received</h1>
 
-    <button @click="loadRequests">Refresh</button>
+    <base-button mode="outline" @click="loadRequests">Refresh</base-button>
 
-    <p v-if="error">{{ error }}</p>
-    <p v-if="isLoading">Loading requests...</p>
+    <base-dialog
+      v-if="error"
+      title="Could not load requests"
+      @close="error = null"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
+
+    <base-spinner v-if="isLoading" />
 
     <ul v-else-if="hasRequests">
       <li v-for="request in requests" :key="request.id">
@@ -16,7 +23,7 @@
     </ul>
 
     <p v-else>No requests found.</p>
-  </section>
+  </base-card>
 </template>
 
 <script>
@@ -56,21 +63,6 @@ export default {
 </script>
 
 <style scoped>
-section {
-  max-width: 42rem;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #3d008d;
-  color: white;
-  cursor: pointer;
-}
-
 ul {
   list-style: none;
   padding: 0;

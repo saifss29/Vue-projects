@@ -1,16 +1,25 @@
 <template>
-  <section>
+  <base-card>
     <h1>Find Your Coach</h1>
 
     <div class="actions">
-      <button @click="loadCoaches(true)">Refresh</button>
-      <router-link to="/register">Register as Coach</router-link>
+      <base-button mode="outline" @click="loadCoaches(true)">
+        Refresh
+      </base-button>
+      <base-button link to="/register">Register as Coach</base-button>
     </div>
 
     <coach-filter @change-filter="setFilters"></coach-filter>
 
-    <p v-if="error">{{ error }}</p>
-    <p v-if="isLoading">Loading...</p>
+    <base-dialog
+      v-if="error"
+      title="Could not load coaches"
+      @close="error = null"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
+
+    <base-spinner v-if="isLoading" />
 
     <ul v-else-if="hasCoaches">
       <coach-item
@@ -25,7 +34,7 @@
     </ul>
 
     <p v-else>No Coaches Found</p>
-  </section>
+  </base-card>
 </template>
 
 <script>
@@ -102,26 +111,8 @@ export default {
 </script>
 
 <style scoped>
-section {
-  max-width: 42rem;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
 h1 {
   margin-bottom: 1rem;
-}
-
-a {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  color: #3d008d;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 ul {
@@ -141,16 +132,4 @@ p {
   margin-bottom: 1.5rem;
 }
 
-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #3d008d;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #27005d;
-}
 </style>

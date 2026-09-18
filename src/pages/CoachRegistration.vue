@@ -1,12 +1,19 @@
 <template>
-  <section>
+  <base-card>
     <h1>Register as a Coach</h1>
 
-    <p v-if="error">{{ error }}</p>
-    <p v-if="isLoading">Saving coach...</p>
+    <base-spinner v-if="isLoading" />
 
-    <coach-form @save-data="saveData"></coach-form>
-  </section>
+    <coach-form v-else @save-data="saveData"></coach-form>
+  </base-card>
+
+  <base-dialog
+    v-if="error"
+    title="Could not register coach"
+    @close="error = null"
+  >
+    <p>{{ error }}</p>
+  </base-dialog>
 </template>
 
 <script>
@@ -41,12 +48,6 @@ export default {
 </script>
 
 <style scoped>
-section {
-  max-width: 42rem;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
 h1 {
   margin-bottom: 1.5rem;
 }

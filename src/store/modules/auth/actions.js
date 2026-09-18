@@ -1,20 +1,18 @@
 const API_KEY = "AIzaSyDQHqa-WtcAdoJDvW9fjCQZvFfPlpO4H9M";
 
-function getAuthErrorMessage(errorCode) {
-  if (errorCode === "EMAIL_EXISTS") {
-    return "This email is already registered.";
+function getAuthErrorMessage(errorCode, mode) {
+  const loginErrorCodes = [
+    "EMAIL_NOT_FOUND",
+    "INVALID_PASSWORD",
+    "INVALID_LOGIN_CREDENTIALS",
+  ];
+
+  if (mode === "login" && loginErrorCodes.includes(errorCode)) {
+    return "Invalid email or password.";
   }
 
-  if (errorCode === "EMAIL_NOT_FOUND") {
-    return "No account was found with this email.";
-  }
-
-  if (errorCode === "INVALID_PASSWORD") {
-    return "The password is incorrect.";
-  }
-
-  if (errorCode === "INVALID_LOGIN_CREDENTIALS") {
-    return "The email or password is incorrect.";
+  if (mode === "signup" && errorCode === "EMAIL_EXISTS") {
+    return "Unable to complete signup.";
   }
 
   if (errorCode === "OPERATION_NOT_ALLOWED") {
@@ -29,7 +27,7 @@ function getAuthErrorMessage(errorCode) {
     return "The Firebase API key is invalid.";
   }
 
-  return errorCode || "Failed to authenticate.";
+  return "Failed to authenticate. Please try again.";
 }
 
 export default {
@@ -75,7 +73,7 @@ export default {
           ? responseData.error.message
           : null;
 
-      throw new Error(getAuthErrorMessage(errorCode));
+      throw new Error(getAuthErrorMessage(errorCode, payload.mode));
     }
 
     context.commit("setUser", {

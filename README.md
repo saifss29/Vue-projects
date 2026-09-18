@@ -44,3 +44,12 @@ Install dependencies:
 Start the development server:
 
 `npm run serve`
+
+## Firebase Realtime Database Rules
+
+The project sends the Firebase ID token with protected requests. Apply the
+rules from `firebase.database.rules.json` in the Firebase Realtime Database
+Rules tab so the database also enforces the protection server-side:
+
+- Coaches can be viewed publicly, but only authenticated users can register a coach.
+- Contact requests can be submitted publicly, but only authenticated users can read them.

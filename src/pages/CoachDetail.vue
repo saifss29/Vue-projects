@@ -1,26 +1,29 @@
 <template>
-  <section v-if="isLoading">
-    <p>Loading...</p>
-  </section>
-  <section v-else-if="selectedCoach">
+  <base-card v-if="isLoading">
+    <base-spinner />
+  </base-card>
+  <base-card v-else-if="selectedCoach">
     <h1>{{ fullName }}</h1>
     <p>${{ selectedCoach.hourlyRate }}/hour</p>
 
-    <div>
-      <span v-for="area in selectedCoach.areas" :key="area">
-        {{ area }}
-      </span>
-    </div>
+      <div>
+        <base-badge
+          v-for="area in selectedCoach.areas"
+          :key="area"
+          :type="area"
+          :title="area"
+        />
+      </div>
 
     <p>{{ selectedCoach.description }}</p>
-    <router-link :to="contactLink">Contact</router-link>
+    <base-button link :to="contactLink">Contact</base-button>
     <router-view></router-view>
-  </section>
-  <section v-else>
+  </base-card>
+  <base-card v-else>
     <h1>Coach not found</h1>
     <p v-if="error">{{ error }}</p>
     <p>Please go back to coaches list</p>
-  </section>
+  </base-card>
 </template>
 
 <script>
@@ -47,10 +50,16 @@ export default {
   created() {
     this.loadCoach();
   },
+  watch: {
+    id() {
+      this.loadCoach();
+    },
+  },
   methods: {
     async loadCoach() {
       this.isLoading = true;
       this.error = null;
+      this.selectedCoach = null;
 
       try {
         await this.$store.dispatch("coaches/loadCoaches");
@@ -79,25 +88,4 @@ h1 {
   margin-top: 0;
 }
 
-span {
-  display: inline-block;
-  margin: 0.25rem 0.5rem 0.25rem 0;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  background-color: #3d008d;
-  color: white;
-  font-size: 0.85rem;
-}
-
-a {
-  display: inline-block;
-  margin: 1rem 0;
-  color: #3d008d;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 </style>

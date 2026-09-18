@@ -17,7 +17,7 @@
 
     <div>
       <label for="rate">Hourly Rate</label>
-      <input id="rate" type="number" v-model="rate" />
+      <input id="rate" type="number" min="0" v-model.number="rate" />
     </div>
 
     <div>
@@ -37,7 +37,7 @@
       Please enter all fields and select at least one area.
     </p>
 
-    <button>Register</button>
+    <base-button type="submit">Register</base-button>
   </form>
 </template>
 
@@ -57,10 +57,13 @@ export default {
   methods: {
     submitForm() {
       if (
-        this.firstName === "" ||
-        this.lastName === "" ||
-        this.description === "" ||
-        !this.rate ||
+        this.firstName.trim() === "" ||
+        this.lastName.trim() === "" ||
+        this.description.trim() === "" ||
+        this.rate === null ||
+        this.rate === "" ||
+        Number.isNaN(this.rate) ||
+        this.rate < 0 ||
         this.areas.length === 0
       ) {
         this.formIsValid = false;
@@ -70,9 +73,9 @@ export default {
       this.formIsValid = true;
 
       const formData = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        description: this.description,
+        firstName: this.firstName.trim(),
+        lastName: this.lastName.trim(),
+        description: this.description.trim(),
         hourlyRate: this.rate,
         areas: this.areas,
       };
@@ -118,19 +121,6 @@ input[type="checkbox"] {
 
 input[type="checkbox"] + label {
   margin-right: 1rem;
-}
-
-button {
-  padding: 0.6rem 1.25rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #3d008d;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #27005d;
 }
 
 p {

@@ -1,5 +1,11 @@
 export default {
   async registerCoach(context, data) {
+    const idToken = context.rootState.auth.token;
+
+    if (!idToken) {
+      throw new Error("You must be logged in to register a coach.");
+    }
+
     const coachData = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -9,9 +15,14 @@ export default {
     };
 
     const response = await fetch(
-      "https://vue-http-demo-1334e-default-rtdb.firebaseio.com/coaches.json",
+      `https://vue-http-demo-1334e-default-rtdb.firebaseio.com/coaches.json?auth=${encodeURIComponent(
+        idToken,
+      )}`,
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(coachData),
       },
     );

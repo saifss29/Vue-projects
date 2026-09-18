@@ -27,8 +27,16 @@ export default {
   },
 
   async loadRequests(context) {
+    const idToken = context.rootState.auth.token;
+
+    if (!idToken) {
+      throw new Error("You must be logged in to view requests.");
+    }
+
     const response = await fetch(
-      "https://vue-http-demo-1334e-default-rtdb.firebaseio.com/requests.json",
+      `https://vue-http-demo-1334e-default-rtdb.firebaseio.com/requests.json?auth=${encodeURIComponent(
+        idToken,
+      )}`,
     );
 
     if (!response.ok) {
