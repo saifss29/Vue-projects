@@ -1,4 +1,4 @@
-# Refreshed Vue Project
+# Vue Project
 
 This project was created as part of my Vue.js learning and practice.
 
